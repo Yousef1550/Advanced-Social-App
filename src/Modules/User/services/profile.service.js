@@ -37,7 +37,6 @@ export const uploadCoverPictures = async (req, res) => {
     const user = await User.findByIdAndUpdate(_id, {coverPictures: coversPaths}, {new: true})
     
     return res.status(200).json({message: 'Cover pictures uploaded successfully', user})
-
 }
 
 

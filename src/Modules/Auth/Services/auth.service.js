@@ -97,13 +97,13 @@ export const signInService = async (req, res) => {
     const accesstoken = signToken({
         data: {_id: user._id, email: user.email},
         secretKey: process.env.SECRET_KEY_ACCESS,
-        options: {expiresIn: '1h', jwtid: uuidv4()}
+        options: {expiresIn: process.env.ACCESS_EXPIRATION_TIME, jwtid: uuidv4()}
     })
 
     const refreshtoken = signToken({
         data: {_id: user._id, email: user.email},
         secretKey: process.env.SECRET_KEY_REFRESH,
-        options: {expiresIn: '2d', jwtid: uuidv4()}
+        options: {expiresIn: process.env.REFRESH_EXPIRATION_TIME, jwtid: uuidv4()}
     })
     return res.status(200).json({message: 'User logged in successfully', accesstoken, refreshtoken})
     
@@ -123,7 +123,7 @@ export const refreshTokenService = async (req, res) => {
     const accesstoken = signToken({
         data: {_id: decodedData._id, email: decodedData.email},
         secretKey: process.env.SECRET_KEY_ACCESS,
-        options: {expiresIn: '1h', jwtid: uuidv4()}
+        options: {expiresIn: process.env.ACCESS_EXPIRATION_TIME, jwtid: uuidv4()}
     })
     return res.status(200).json({message: 'Token refreshed successfully', accesstoken})
 }

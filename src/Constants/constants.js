@@ -20,3 +20,14 @@ export const ProvidersEnum = {
 
 
 export const imageExtentions = ['image/jpeg', 'image/png']
+
+
+
+export const Reacts = {
+    LIKE: 'like 👍🏻',
+    LOVE: 'love ❤️',
+    HAHA: 'haha 😆',
+    WOW: 'wow 😲',
+    SAD: 'sad 😢',
+    ANGRY: 'angry 😡'
+}
