@@ -17,7 +17,7 @@ const reactSchema = mongoose.Schema({
     },
     ownerId: {
         type: mongoose.Schema.Types.ObjectId,
-        ref: 'User',
+        ref: 'user',
         required: true
     },
     reactType: {
@@ -25,7 +25,7 @@ const reactSchema = mongoose.Schema({
         enum: Object.values(Reacts)
     }
 }, {
-    timestamp: true
+    timestamps: true
 })
 
 

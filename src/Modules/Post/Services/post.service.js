@@ -2,6 +2,8 @@ import { cloudinary } from "../../../Config/cloudinary.config.js"
 import Post from "../../../DB/models/post.model.js"
 import User from "../../../DB/models/users.model.js"
 import { nanoid } from "nanoid"
+import { pagination } from "../../../utils/pagination.utils.js"
+import { populate } from "dotenv"
 
 // JS doc
 /**
@@ -81,22 +83,57 @@ export const listUserPostsService = async (req, res) => {
 
 
 export const listPostsService = async (req, res) => {
-    const posts = await Post.find().populate(
-        [
-            {
-                path: 'ownerId',
-                select: 'username -_id'
-            },
-            {
-                path: 'tags',
-                select: 'username -_id'
-            },
-            {
-                path: 'Comments'
-            }
-        ]
+    const {page, limit} = req.query     
+    
+
+    // ----------------------------------- pagination ------------------------------------ //
+    // const {limit, skip} = pagination(page, limiter)
+
+    // const posts = await Post.find().populate(
+    //     [
+    //         {
+    //             path: 'ownerId',
+    //             select: 'username -_id'
+    //         },
+    //         {
+    //             path: 'tags',
+    //             select: 'username -_id'
+    //         },
+    //         {
+    //             path: 'Comments'    // virtual populate
+    //         },
+    //         {
+    //             path: 'Reacts'      // virtual populate  
+    //         }
+    //     ]
+    // ).limit(limit).skip(skip)
+
+    // const allPostsCount = await Post.countDocuments()
+
+
+    // ----------------------------------- pagination (plugin) ------------------------------------ //
+    const posts = await Post.paginate(
+        {},     // filter query 
+        {
+            limit,
+            page,
+            populate: [
+                    {
+                        path: 'ownerId',
+                        select: 'username -_id'
+                    },
+                    {
+                        path: 'tags',
+                        select: 'username -_id'
+                    },
+                    {
+                        path: 'Comments'    // virtual populate
+                    },
+                    {
+                        path: 'Reacts'      // virtual populate  
+                    }
+                ]
+        }
     )
-
     return res.status(200).json({message: 'Success', posts})
-
 }

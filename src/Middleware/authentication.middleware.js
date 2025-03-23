@@ -3,7 +3,33 @@ import User from "../DB/models/users.model.js"
 import { verifyToken } from "../utils/jwt.utils.js"
 
 
+export const validateUserToken = async (accesstoken) => {
+    if(!accesstoken){
+        return 'Access tohen required, please login'
+    }
 
+    const decodedData = verifyToken({token: accesstoken, secretKey: process.env.SECRET_KEY_ACCESS})
+
+    const isTokenBlackListed = await BlackListTokens.findOne({tokenId: decodedData.jti})
+    if(isTokenBlackListed){
+        return 'Access token is blacklisted, please login'
+    }
+
+    const user = await User.findById(decodedData._id, '-password -__v')
+    if(!user){
+        return 'User not found, please signUp'
+    }
+
+    
+    return {
+            ...user._doc,
+            token: {
+            tokenId: decodedData.jti,
+            expiryDate: decodedData.exp
+        }
+    }
+    
+}
 
 
 

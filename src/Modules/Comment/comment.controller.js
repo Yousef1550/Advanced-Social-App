@@ -20,3 +20,13 @@ commentController.post(
 commentController.get('/listComments', errorHandler(listCommentsService))
 
 export default commentController
+
+
+/** router options
+ *  {          
+    caseSensitive: true,        
+    strict: true,        // strict to => /listComments/
+    mergeParams: true
+}
+ */
+

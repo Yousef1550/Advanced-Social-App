@@ -14,7 +14,7 @@ const blackListTokens_schema = mongoose.Schema({
         type: String,
         required: true
     }
-}, {timestamp: true})
+}, {timestamps: true})
 
 
 const BlackListTokens = mongoose.models.blackListTokens || mongoose.model('blackListTokens', blackListTokens_schema)

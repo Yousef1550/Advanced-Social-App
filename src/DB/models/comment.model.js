@@ -30,7 +30,7 @@ const commentSchema = new mongoose.Schema({
         enum: ['Post', 'Comment']       // should be the same models names
     }
 }, {
-    timestamp: true
+    timestamps: true
 })
 
 

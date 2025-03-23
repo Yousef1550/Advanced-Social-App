@@ -10,6 +10,9 @@ import { imageExtentions } from "../../Constants/constants.js";
 const postController = Router()
 
 
+
+postController.get('/listPosts', errorHandler(listPostsService))
+
 postController.use(authenticationMiddleware())
 
 postController.post(
@@ -20,6 +23,5 @@ postController.post(
 
 postController.get('/listUserPosts', errorHandler(listUserPostsService))
 
-postController.get('/listPosts', errorHandler(listPostsService))
 
 export default postController

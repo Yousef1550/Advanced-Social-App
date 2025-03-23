@@ -1,5 +1,5 @@
 import mongoose from "mongoose";
-
+import mongoosePaginate from "mongoose-paginate-v2";
 
 
 
@@ -29,7 +29,7 @@ const postSchema = new mongoose.Schema({
         folderId: String
     }
 }, {
-    timestamp: true,
+    timestamps: true,
     toJSON: {           // virtials can be converted to json || object in this model
         virtuals: true
     },
@@ -45,6 +45,15 @@ postSchema.virtual('Comments', {
     localField: '_id',      // post Id
     foreignField: 'commentOnId'     // the post Id in the comment model 
 })
+
+postSchema.virtual('Reacts', {
+    ref: 'React',         
+    localField: '_id',      
+    foreignField: 'reactOnId'     
+})
+
+postSchema.plugin(mongoosePaginate)  // add the plugin to the post schema
+
 
 const Post = mongoose.models.Post || mongoose.model('Post', postSchema)
 
